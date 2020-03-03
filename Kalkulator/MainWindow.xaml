@@ -1,0 +1,34 @@
+﻿<Window x:Class="Kalkulator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kalkulator"
+        mc:Ignorable="d"
+        Title="Kalkulator" Height="722" Width="430">
+    <Grid Background="#13315c">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+        <Label x:Name="Wynik" Grid.ColumnSpan="4" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" 
+               Background="#13315c" Content="67645" Foreground="#eef4ed" FontSize="44" Margin="15 0"/>
+
+        <Border Grid.Row="1" Margin="10" CornerRadius="20" Background="#FFF">
+            <Button Background="Transparent"></Button>
+        </Border>
+        
+
+    </Grid>
+</Window>
