@@ -14,13 +14,22 @@
     <Color x:Key="IsNotEnabledBackgroundColor1" A="255" R="233" G="233" B="233"/>
     <Color x:Key="IsNotEnabledBackgroundColor2" A="255" R="240" G="240" B="240"/>
 
+    <Color x:Key="SecondaryBackgroundColor1" A="255" R="255" G="94" B="91"/>
+    <Color x:Key="SecondaryBackgroundColor2" A="255" R="255" G="77" B="73"/>
+
+    <Color x:Key="MouseOverSecondaryBackgroundColor1" A="255" R="225" G="84" B="81"/>
+    <Color x:Key="MouseOverSecondaryBackgroundColor2" A="255" R="227" G="60" B="57"/>
+
+    <Color x:Key="MouseDownSecondaryBackgroundColor1" A="255" R="147" G="54" B="52"/>
+    <Color x:Key="MouseDownSecondaryBackgroundColor2" A="255" R="123" G="32" B="32"/>
+
     <SolidColorBrush x:Key="BorderBrush" Color="#7fb1e9"/>
 
     <Style x:Key="MainButtonTemplate" TargetType="Button">
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="42"/>
-        <Setter Property="Foreground" Value="Beige"/>
+        <Setter Property="Foreground" Value="#EEF4ED"/>
         <Setter Property="Padding" Value="0"/>
 
         <Setter Property="Template">
@@ -152,6 +161,153 @@
                                         <ColorAnimation Storyboard.TargetName="BackgroundGradientStop2"
                                                             Storyboard.TargetProperty="Color"
                                                             To="{StaticResource BackgroundColor2}"
+                                                            Duration="0:0:0:0.05"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SecondaryButtonTemplate" TargetType="Button">
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="42"/>
+        <Setter Property="Foreground" Value="Beige"/>
+        <Setter Property="Padding" Value="0"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="b" Margin="{TemplateBinding Margin}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="16"
+                                Padding="0">
+
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStop x:Name="BackgroundGradientStop1" Offset="0" 
+                                                      Color="{StaticResource SecondaryBackgroundColor1}"/>
+                                    <GradientStop x:Name="BackgroundGradientStop2" Offset="1" 
+                                                      Color="{StaticResource SecondaryBackgroundColor2}"/>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                        <ContentPresenter x:Name="contentPresenter"
+                                              Margin="{TemplateBinding Padding}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="DisabledAnimation">
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop1"
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource IsNotEnabledBackgroundColor1}"
+                                                            Duration="0"/>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop2"
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource IsNotEnabledBackgroundColor2}"
+                                                            Duration="0"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="EnabledAnimation">
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop1"
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource SecondaryBackgroundColor1}"
+                                                            Duration="0"/>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop2"
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource SecondaryBackgroundColor2}"
+                                                            Duration="0"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="True"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="MouseOverAnimation">
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop1" 
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource MouseOverSecondaryBackgroundColor1}"
+                                                            Duration="0:0:0:0.15"/>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop2" 
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource MouseOverSecondaryBackgroundColor2}"
+                                                            Duration="0:0:0:0.15"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="MouseExitAnimation" FillBehavior="Stop">
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop1" 
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource SecondaryBackgroundColor1}"
+                                                            Duration="0:0:0:0.15"/>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop2" 
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource SecondaryBackgroundColor2}"
+                                                            Duration="0:0:0:0.15"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="True"/>
+                                <Condition Property="IsPressed" Value="True"/>
+                            </MultiTrigger.Conditions>
+
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="MouseDownAnimation">
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop1"
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource MouseDownSecondaryBackgroundColor1}"
+                                                            Duration="0:0:0:0.05"/>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop2"
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource MouseDownSecondaryBackgroundColor2}"
+                                                            Duration="0:0:0:0.05"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="MouseUpAnimation" FillBehavior="Stop">
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop1"
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource SecondaryBackgroundColor1}"
+                                                            Duration="0:0:0:0.05"/>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGradientStop2"
+                                                            Storyboard.TargetProperty="Color"
+                                                            To="{StaticResource SecondaryBackgroundColor2}"
                                                             Duration="0:0:0:0.05"/>
                                     </Storyboard>
                                 </BeginStoryboard>
