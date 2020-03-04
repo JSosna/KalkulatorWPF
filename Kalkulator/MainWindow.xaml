@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kalkulator"
         mc:Ignorable="d"
-        Title="Kalkulator" Height="722" Width="430" ResizeMode="NoResize">
+        Title="Kalkulator" Height="722" Width="430" ResizeMode="NoResize" 
+        KeyDown="Window_KeyDown" KeyUp="Window_KeyUp">
 
 
     <Grid Background="#1861a5">
@@ -16,7 +17,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
@@ -25,33 +27,39 @@
         </Grid.RowDefinitions>
 
         <TextBox x:Name="Wynik" Grid.ColumnSpan="4" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" 
-                 Background="#1861a5" Text="0" Foreground="#eef4ed" FontSize="44" Margin="15 0" BorderThickness="0"
+                 Background="#1861a5" Text="0" Foreground="#eef4ed" FontSize="48" Margin="15 0" BorderThickness="0"
                  IsReadOnly="True"/>
 
+        <ScrollViewer SizeChanged="ScrollViewer_SizeChanged" Grid.Row="1" Grid.ColumnSpan="4" 
+                      VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto"
+                      HorizontalAlignment="Stretch">
+            <StackPanel x:Name="StackHelpers"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="15 0"/>
+        </ScrollViewer>
 
-        <Button Click="Number_Click" Grid.Row="1" Margin="5" Content="7" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Number_Click" Grid.Row="1" Grid.Column="1" Margin="5" Content="8" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Number_Click" Grid.Row="1" Grid.Column="2" Margin="5" Content="9" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Operator_Click" Grid.Row="1" Grid.Column="3" Margin="5" Content="÷" FontSize="56" Padding="0 0 0 12" Style="{StaticResource SecondaryButtonTemplate}"/>
 
-        <Button Click="Number_Click" Grid.Row="2" Margin="5" FontSize="48" Content="4" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Number_Click" Grid.Row="2" Grid.Column="1" Margin="5" Content="5" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Number_Click" Grid.Row="2" Grid.Column="2" Margin="5" Content="6" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Operator_Click" Grid.Row="2" Grid.Column="3" Margin="5" Content="×" FontSize="58" Padding="0 0 0 12" Style="{StaticResource SecondaryButtonTemplate}"/>
+        <Button x:Name="Button7" Click="Number_Click" Grid.Row="2" Margin="5" Content="7" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="Button8" Click="Number_Click" Grid.Row="2" Grid.Column="1" Margin="5" Content="8" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="Button9" Click="Number_Click" Grid.Row="2" Grid.Column="2" Margin="5" Content="9" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="ButtonDiv" Tag="/" Click="Operator_Click" Grid.Row="2" Grid.Column="3" Margin="5" Content="÷" FontSize="56" Padding="0 0 0 12" Style="{StaticResource SecondaryButtonTemplate}"/>
 
-        <Button Click="Number_Click" Grid.Row="3" Margin="5" FontSize="48" Content="1" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Number_Click" Grid.Row="3" Grid.Column="1" Margin="5" Content="2" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Number_Click" Grid.Row="3" Grid.Column="2" Margin="5" Content="3" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Operator_Click" Grid.Row="3" Grid.Column="3" Margin="5" Content="-" FontSize="56" Padding="0 0 0 11" Style="{StaticResource SecondaryButtonTemplate}"/>
+        <Button x:Name="Button4" Click="Number_Click" Grid.Row="3" Margin="5" FontSize="48" Content="4" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="Button5" Click="Number_Click" Grid.Row="3" Grid.Column="1" Margin="5" Content="5" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="Button6" Click="Number_Click" Grid.Row="3" Grid.Column="2" Margin="5" Content="6" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="ButtonMult" Tag="*" Click="Operator_Click" Grid.Row="3" Grid.Column="3" Margin="5" Content="×" FontSize="58" Padding="0 0 0 12" Style="{StaticResource SecondaryButtonTemplate}"/>
 
-        <Button Click="Number_Click" Grid.Row="4" Margin="5" FontSize="48" Content="0" Grid.ColumnSpan="2" Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Number_Click" Grid.Row="4" Grid.Column="2" Margin="5" Content="," Style="{StaticResource MainButtonTemplate}"/>
-        <Button Click="Operator_Click" Grid.Row="4" Grid.Column="3" Margin="5" Content="+" FontSize="56" Padding="0 0 0 12" Style="{StaticResource SecondaryButtonTemplate}"/>
+        <Button x:Name="Button1" Click="Number_Click" Grid.Row="4" Margin="5" FontSize="48" Content="1" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="Button2" Click="Number_Click" Grid.Row="4" Grid.Column="1" Margin="5" Content="2" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="Button3" Click="Number_Click" Grid.Row="4" Grid.Column="2" Margin="5" Content="3" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="ButtonMinus" Tag="-" Click="Operator_Click" Grid.Row="4" Grid.Column="3" Margin="5" Content="-" FontSize="56" Padding="0 0 0 11" Style="{StaticResource SecondaryButtonTemplate}"/>
 
-        <Button Click="AC_Click" Grid.Row="5" Grid.Column="0" Margin="5" Content="AC" Padding="0 0 3 3" Style="{StaticResource SecondaryButtonTemplate}"/>
-        <Button Click="CE_Click" Grid.Row="5" Grid.Column="1" Margin="5" Content="CE" Padding="0 0 3 3" Style="{StaticResource SecondaryButtonTemplate}"/>
-        <Button Click="Neg_Click"  Grid.Row="5" Grid.Column="2" Margin="5" Content="+/-" Padding="0 0 4 9" Style="{StaticResource SecondaryButtonTemplate}"/>
-        <Button Grid.Row="5" Grid.Column="3" Margin="5" Content="=" FontSize="56" Padding="0, 0, 0, 10" Style="{StaticResource SecondaryButtonTemplate}"/>
+        <Button x:Name="Button0" Click="Number_Click" Grid.Row="5" Margin="5" FontSize="48" Content="0" Grid.ColumnSpan="2" Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="ButtonComma" Click="Number_Click" Grid.Row="5" Grid.Column="2" Margin="5" Content="," Style="{StaticResource MainButtonTemplate}"/>
+        <Button x:Name="ButtonPlus" Tag="+" Click="Operator_Click" Grid.Row="5" Grid.Column="3" Margin="5" Content="+" FontSize="56" Padding="0 0 0 12" Style="{StaticResource SecondaryButtonTemplate}"/>
+
+        <Button x:Name="ButtonAC" Click="AC_Click" Grid.Row="6" Grid.Column="0" Margin="5" Content="AC" Padding="0 0 3 3" Style="{StaticResource SecondaryButtonTemplate}"/>
+        <Button x:Name="ButtonCE" Click="CE_Click" Grid.Row="6" Grid.Column="1" Margin="5" Content="CE" Padding="0 0 3 3" Style="{StaticResource SecondaryButtonTemplate}"/>
+        <Button x:Name="ButtonNeg" Click="Neg_Click"  Grid.Row="6" Grid.Column="2" Margin="5" Content="+/-" Padding="0 0 4 9" Style="{StaticResource SecondaryButtonTemplate}"/>
+        <Button x:Name="ButtonEquals" Click="Equals_Click" Grid.Row="6" Grid.Column="3" Margin="5" Content="=" FontSize="56" Padding="0, 0, 0, 10" Style="{StaticResource SecondaryButtonTemplate}"/>
 
     </Grid>
 </Window>

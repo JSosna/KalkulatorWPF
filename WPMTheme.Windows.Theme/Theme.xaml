@@ -3,6 +3,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ButtonStyles.xaml"/>
+        <ResourceDictionary Source="LabelStyle.xaml"/>
+        <ResourceDictionary Source="ScrollStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>
