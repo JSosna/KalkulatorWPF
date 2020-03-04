@@ -14,6 +14,7 @@
     <Color x:Key="IsNotEnabledBackgroundColor1" A="255" R="233" G="233" B="233"/>
     <Color x:Key="IsNotEnabledBackgroundColor2" A="255" R="240" G="240" B="240"/>
 
+    
     <Color x:Key="SecondaryBackgroundColor1" A="255" R="255" G="94" B="91"/>
     <Color x:Key="SecondaryBackgroundColor2" A="255" R="255" G="77" B="73"/>
 
