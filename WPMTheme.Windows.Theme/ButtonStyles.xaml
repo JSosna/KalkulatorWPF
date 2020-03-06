@@ -1,28 +1,27 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:WPMTheme.Windows.Theme">
-
-    <Color x:Key="BackgroundColor1" A="255" R="127" G="192" B="255"/>
-    <Color x:Key="BackgroundColor2" A="255" R="100" G="163" B="232"/>
-
-    <Color x:Key="MouseOverBackgroundColor1" A="255" R="87" G="159" B="228"/>
-    <Color x:Key="MouseOverBackgroundColor2" A="255" R="71" G="139" B="214"/>
-
-    <Color x:Key="MouseDownBackgroundColor1" A="255" R="12" G="53" B="93"/>
-    <Color x:Key="MouseDownBackgroundColor2" A="255" R="31" G="74" B="122"/>
-
+    
+    <Color x:Key="BackgroundColor1" A="255" R="84" G="100" B="130"/>
+    <Color x:Key="BackgroundColor2" A="255" R="74" G="88" B="110"/>
+    
+    <Color x:Key="MouseOverBackgroundColor1" A="255" R="90" G="118" B="168"/>
+    <Color x:Key="MouseOverBackgroundColor2" A="255" R="80" G="108" B="151"/>
+    
+    <Color x:Key="MouseDownBackgroundColor1" A="255" R="70" G="85" B="115"/>
+    <Color x:Key="MouseDownBackgroundColor2" A="255" R="60" G="75" B="100"/>
+    
     <Color x:Key="IsNotEnabledBackgroundColor1" A="255" R="233" G="233" B="233"/>
     <Color x:Key="IsNotEnabledBackgroundColor2" A="255" R="240" G="240" B="240"/>
-
     
-    <Color x:Key="SecondaryBackgroundColor1" A="255" R="255" G="94" B="91"/>
-    <Color x:Key="SecondaryBackgroundColor2" A="255" R="255" G="77" B="73"/>
+    <Color x:Key="SecondaryBackgroundColor1" A="255" R="70" G="188" B="160"/>
+    <Color x:Key="SecondaryBackgroundColor2" A="255" R="60" G="168" B="146"/>
 
-    <Color x:Key="MouseOverSecondaryBackgroundColor1" A="255" R="225" G="84" B="81"/>
-    <Color x:Key="MouseOverSecondaryBackgroundColor2" A="255" R="227" G="60" B="57"/>
+    <Color x:Key="MouseOverSecondaryBackgroundColor1" A="255" R="90" G="228" B="200"/>
+    <Color x:Key="MouseOverSecondaryBackgroundColor2" A="255" R="80" G="208" B="180"/>
 
-    <Color x:Key="MouseDownSecondaryBackgroundColor1" A="255" R="147" G="54" B="52"/>
-    <Color x:Key="MouseDownSecondaryBackgroundColor2" A="255" R="123" G="32" B="32"/>
+    <Color x:Key="MouseDownSecondaryBackgroundColor1" A="255" R="49" G="144" B="114"/>
+    <Color x:Key="MouseDownSecondaryBackgroundColor2" A="255" R="49" G="144" B="114"/>
 
     <SolidColorBrush x:Key="BorderBrush" Color="#7fb1e9"/>
 

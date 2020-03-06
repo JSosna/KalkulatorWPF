@@ -40,23 +40,25 @@ namespace Kalkulator
                 AC_Click(null, null);
             }
 
-            if (button.Content.ToString() == "," && !Wynik.Text.ToString().Contains(','))
-                Wynik.Text += ',';
+            if (button.Content.ToString() == "," && lastButtonWasOperator)
+                ResultTextBox.Text = "0,";
+            else if (button.Content.ToString() == "," && !ResultTextBox.Text.ToString().Contains(','))
+                ResultTextBox.Text += ',';
 
             if (button.Content.ToString() != ",")
             {
                 if (lastButtonWasOperator)
                 {
-                    Wynik.Text = "0";
+                    ResultTextBox.Text = "0";
                     lastOperator.BorderThickness = new Thickness(0);
                 }
 
-                if(button.Content.ToString() == "0" && Wynik.Text.ToString().Contains(','))
-                    Wynik.Text += "0";
+                if(button.Content.ToString() == "0" && ResultTextBox.Text.ToString().Contains(','))
+                    ResultTextBox.Text += "0";
                 else
                 {
-                    Double.TryParse(Wynik.Text + button.Content, out double tmp);
-                    Wynik.Text = $"{tmp}";
+                    Double.TryParse(ResultTextBox.Text + button.Content, out double tmp);
+                    ResultTextBox.Text = $"{tmp}";
                 }
             }
 
@@ -70,7 +72,7 @@ namespace Kalkulator
             {
                 Calculate_result();
 
-                Wynik.Text = finalResult.ToString();
+                ResultTextBox.Text = finalResult.ToString();
                 Console.WriteLine(finalResult.ToString());
             }
 
@@ -96,7 +98,7 @@ namespace Kalkulator
         private void AC_Click(object sender, RoutedEventArgs e)
         {
             finalResult = 0;
-            Wynik.Text = "0";
+            ResultTextBox.Text = "0";
             lastButtonWasOperator = false;
             equalsPressed = false;
             expression = "";
@@ -110,7 +112,13 @@ namespace Kalkulator
 
         private void CE_Click(object sender, RoutedEventArgs e)
         {
-            Wynik.Text = "0";
+            if (equalsPressed)
+            {
+                AC_Click(null, null);
+                equalsPressed = false;
+            }
+                
+            ResultTextBox.Text = "0";
         }
 
         private void Neg_Click(object sender, RoutedEventArgs e)
@@ -119,15 +127,15 @@ namespace Kalkulator
             {
                 var tmp = finalResult;
                 AC_Click(null, null);
-                Wynik.Text = tmp.ToString();
+                ResultTextBox.Text = tmp.ToString();
                 equalsPressed = false;
                 lastButtonWasOperator = false;
             }
 
-            if (Wynik.Text.Contains("-"))
-                Wynik.Text = Wynik.Text.Replace("-", "");
+            if (ResultTextBox.Text.Contains("-"))
+                ResultTextBox.Text = ResultTextBox.Text.Replace("-", "");
             else
-                Wynik.Text = "-" + Wynik.Text;
+                ResultTextBox.Text = "-" + ResultTextBox.Text;
         }
 
         private void Add_Helper_Number(double value)
@@ -150,7 +158,7 @@ namespace Kalkulator
             if (!equalsPressed)
             {
                 Calculate_result();
-                Wynik.Text = finalResult.ToString();
+                ResultTextBox.Text = finalResult.ToString();
             }
             else
             {
@@ -168,7 +176,7 @@ namespace Kalkulator
 
         private void Calculate_result()
         {
-            Double.TryParse(Wynik.Text, out double tmp);
+            Double.TryParse(ResultTextBox.Text, out double tmp);
             Add_Helper_Number(tmp);
             if(lastOperator != null)
                 expression += lastOperator.Tag.ToString();
@@ -187,7 +195,7 @@ namespace Kalkulator
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Wynik.Text = "Błąd!";
+                ResultTextBox.Text = "Błąd!";
             }
         }
 
@@ -199,8 +207,6 @@ namespace Kalkulator
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(e.Key);
-
             if (e.Key == Key.D0 || e.Key == Key.NumPad0)
                 Set_Pressed(Button0);
             if (e.Key == Key.D1 || e.Key == Key.NumPad1)
@@ -232,7 +238,7 @@ namespace Kalkulator
                 Set_Pressed(ButtonPlus);
             if (e.Key == Key.Decimal || e.Key == Key.OemComma || e.Key == Key.OemPeriod)
                 Set_Pressed(ButtonComma);
-            if (e.Key == Key.OemPlus || e.Key == Key.Return)
+            if (e.Key == Key.OemPlus || e.Key == Key.Return || e.Key == Key.Enter)
                 Set_Pressed(ButtonEquals);
             if (e.Key == Key.Delete)
                 Set_Pressed(ButtonAC);

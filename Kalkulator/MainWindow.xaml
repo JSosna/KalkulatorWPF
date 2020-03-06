@@ -8,8 +8,7 @@
         Title="Kalkulator" Height="722" Width="430" ResizeMode="NoResize" 
         KeyDown="Window_KeyDown" KeyUp="Window_KeyUp">
 
-
-    <Grid Background="#1861a5">
+    <Grid Background="#2F3640">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -26,8 +25,8 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="Wynik" Grid.ColumnSpan="4" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" 
-                 Background="#1861a5" Text="0" Foreground="#eef4ed" FontSize="48" Margin="15 0" BorderThickness="0"
+        <TextBox x:Name="ResultTextBox" Grid.ColumnSpan="4" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" 
+                 Background="#2F3640" Text="0" Foreground="#eef4ed" FontSize="44" Margin="15 0" BorderThickness="0"
                  IsReadOnly="True"/>
 
         <ScrollViewer SizeChanged="ScrollViewer_SizeChanged" Grid.Row="1" Grid.ColumnSpan="4" 

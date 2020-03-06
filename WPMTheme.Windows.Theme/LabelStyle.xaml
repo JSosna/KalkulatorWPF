@@ -4,9 +4,9 @@
 
     <Style x:Key="BorderForHelpLabel" TargetType="Border">
         <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Background" Value="#192c5b"/>
+        <Setter Property="Background" Value="#4A586E"/>
         <Setter Property="Height" Value="26"/>
-        <Setter Property="Padding" Value="0 0 0 0"/>
+        <Setter Property="Padding" Value="0 0 0 2"/>
         <Setter Property="Margin" Value="0"/>
     </Style>
 
@@ -19,11 +19,13 @@
 
     <Style x:Key="BasicOperatorLabel" TargetType="Label">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="#192c5b"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="#4A586E"/>
         <Setter Property="Margin" Value="0 0 0 6"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="FontSize" Value="22"/>
         <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Width" Value="16"/>
     </Style>
 
 </ResourceDictionary>
