@@ -142,8 +142,10 @@ namespace Kalkulator
         {
             Border border = new Border() { Style = FindResource("BorderForHelpLabel") as Style };
             Label label = new Label() { Content = value.ToString().Replace('.',','), Style = FindResource("HelpBottomLabel") as Style };
+            label.MouseDoubleClick += Number_MouseDoubleClick;
 
             border.Child = label;
+
             StackHelpers.Children.Add(border);
         }
 
@@ -300,6 +302,63 @@ namespace Kalkulator
         private void Set_Unpressed(Button button)
         {
             typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(button, new object[] { false });
+        }
+
+        private void ResultTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Save_Number(ResultTextBox.Text);
+        }
+
+        private void Number_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Label label = sender as Label;
+            Save_Number(label.Content.ToString());
+        }
+
+        private void Save_Number(String number)
+        {
+            Border border = new Border() { Style = FindResource("SavedNumberBorder") as Style };
+            StackPanel sp = new StackPanel() { Orientation = Orientation.Horizontal };
+
+            Label labelNumber = new Label() { Style = FindResource("SavedNumberLabel") as Style, Content = number };
+            Label labelX = new Label() { Style = FindResource("RemoveSavedNumberLabel") as Style };
+            labelNumber.MouseDown += SavedNumber_Click;
+            labelX.MouseDown += Remove_SavedNumber_Click;
+
+            sp.Children.Add(labelNumber);
+            sp.Children.Add(labelX);
+
+            border.Child = sp;
+
+            SavedNumbersPanel.Children.Add(border);
+        }
+
+        private void SavedNumber_Click(object sender, MouseButtonEventArgs e)
+        {
+            Label label = sender as Label;
+
+            if (equalsPressed)
+            {
+                AC_Click(null, null);
+                equalsPressed = false;
+            }
+            if (lastButtonWasOperator)
+            {
+                lastButtonWasOperator = false;
+                lastOperator.BorderThickness = new Thickness(0);
+            }
+                
+
+            ResultTextBox.Text = label.Content.ToString();
+        }
+
+        private void Remove_SavedNumber_Click(object sender, MouseButtonEventArgs e)
+        {
+            Label label = sender as Label;
+            StackPanel sp = label.Parent as StackPanel;
+            Border border = sp.Parent as Border;
+
+            SavedNumbersPanel.Children.Remove(border);
         }
     }
 }
