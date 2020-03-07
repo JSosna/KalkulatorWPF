@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -66,7 +67,7 @@ namespace Kalkulator
             lastButtonWasOperator = false;
         }
 
-        private void Operator_Click(object sender, RoutedEventArgs e)
+        async private void Operator_Click(object sender, RoutedEventArgs e)
         {
             if (!lastButtonWasOperator && !equalsPressed)
             {
@@ -80,6 +81,11 @@ namespace Kalkulator
             if (lastOperator != sender && lastButtonWasOperator)
             {
                 lastOperator.BorderThickness = new Thickness(0);
+
+                DoubleAnimation da = new DoubleAnimation(((Label)StackHelpers.Children[StackHelpers.Children.Count - 1]).ActualWidth, 0, new Duration(TimeSpan.FromSeconds(0.2)));
+                StackHelpers.Children[StackHelpers.Children.Count - 1].BeginAnimation(WidthProperty, da);
+
+                await Task.Delay(200);
                 StackHelpers.Children.RemoveAt(StackHelpers.Children.Count - 1);
             }
 
@@ -138,21 +144,38 @@ namespace Kalkulator
                 ResultTextBox.Text = "-" + ResultTextBox.Text;
         }
 
-        private void Add_Helper_Number(double value)
+         async private void Add_Helper_Number(double value)
         {
-            Border border = new Border() { Style = FindResource("BorderForHelpLabel") as Style };
+            Border border = new Border() { Style = FindResource("BorderForHelpLabel") as Style, Opacity = 0 };
             Label label = new Label() { Content = value.ToString().Replace('.',','), Style = FindResource("HelpBottomLabel") as Style };
             label.MouseDoubleClick += Number_MouseDoubleClick;
 
             border.Child = label;
 
+            SavedNumbersPanel.Children.Add(border);
+            await Task.Delay(20);
+            var actualWidth = border.ActualWidth;
+            SavedNumbersPanel.Children.Remove(border);
+
             StackHelpers.Children.Add(border);
+
+            DoubleAnimation da = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.3)));
+            border.BeginAnimation(OpacityProperty, da);
+            DoubleAnimation da1 = new DoubleAnimation(0, actualWidth, new Duration(TimeSpan.FromSeconds(0.25)));
+            border.BeginAnimation(WidthProperty, da1);
         }
 
-        private void Add_Helper_Operator(char o)
+        async private void Add_Helper_Operator(char o)
         {
-            Label label = new Label() { Content = o, Style = FindResource("BasicOperatorLabel") as Style };
+            Label label = new Label() { Content = o, Style = FindResource("BasicOperatorLabel") as Style, Opacity = 0 };
+
+            await Task.Delay(45);
             StackHelpers.Children.Add(label);
+
+            DoubleAnimation da = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.2)));
+            label.BeginAnimation(OpacityProperty, da);
+            DoubleAnimation da1 = new DoubleAnimation(0, 16, new Duration(TimeSpan.FromSeconds(0.2)));
+            label.BeginAnimation(WidthProperty, da1);
         }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
@@ -164,15 +187,40 @@ namespace Kalkulator
             }
             else
             {
-                StackHelpers.Children.Clear();
-                expression = finalResult.ToString();
-                Add_Helper_Number(finalResult);
+                Solve_Helpers();
             }
 
             if (lastOperator != null)
                 lastOperator.BorderThickness = new Thickness(0);
             equalsPressed = true;
             lastButtonWasOperator = false;
+        }
+
+        async private void Solve_Helpers()
+        {
+            for(int i=0; i<StackHelpers.Children.Count; i++)
+            {
+                DoubleAnimation daOpacity = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+                if (StackHelpers.Children[i].GetType() == typeof(Label))
+                {
+                    DoubleAnimation da = new DoubleAnimation(((Label)StackHelpers.Children[i]).ActualWidth, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+                    StackHelpers.Children[i].BeginAnimation(WidthProperty, da);
+                    StackHelpers.Children[i].BeginAnimation(OpacityProperty, daOpacity);
+                }
+                    
+                else if(StackHelpers.Children[i].GetType() == typeof(Border))
+                {
+                    DoubleAnimation da = new DoubleAnimation(((Border)StackHelpers.Children[i]).ActualWidth, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+                    StackHelpers.Children[i].BeginAnimation(WidthProperty, da);
+                    StackHelpers.Children[i].BeginAnimation(OpacityProperty, daOpacity);
+                }
+            }
+
+            await Task.Delay(300);
+            StackHelpers.Children.Clear();
+
+            expression = finalResult.ToString();
+            Add_Helper_Number(finalResult);
         }
 
 
@@ -315,9 +363,9 @@ namespace Kalkulator
             Save_Number(label.Content.ToString());
         }
 
-        private void Save_Number(String number)
+        async private void Save_Number(String number)
         {
-            Border border = new Border() { Style = FindResource("SavedNumberBorder") as Style };
+            Border border = new Border() { Style = FindResource("SavedNumberBorder") as Style, Opacity = 0 };
             StackPanel sp = new StackPanel() { Orientation = Orientation.Horizontal };
 
             Label labelNumber = new Label() { Style = FindResource("SavedNumberLabel") as Style, Content = number };
@@ -331,6 +379,14 @@ namespace Kalkulator
             border.Child = sp;
 
             SavedNumbersPanel.Children.Add(border);
+            await Task.Delay(30);
+            var actualWidth = border.ActualWidth;
+
+            DoubleAnimation da = new DoubleAnimation(0, actualWidth, new Duration(TimeSpan.FromSeconds(0.3)));
+            DoubleAnimation da1 = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.3)));
+
+            border.BeginAnimation(WidthProperty, da);
+            border.BeginAnimation(OpacityProperty, da1);
         }
 
         private void SavedNumber_Click(object sender, MouseButtonEventArgs e)
@@ -352,12 +408,19 @@ namespace Kalkulator
             ResultTextBox.Text = label.Content.ToString();
         }
 
-        private void Remove_SavedNumber_Click(object sender, MouseButtonEventArgs e)
+        async private void Remove_SavedNumber_Click(object sender, MouseButtonEventArgs e)
         {
             Label label = sender as Label;
             StackPanel sp = label.Parent as StackPanel;
             Border border = sp.Parent as Border;
+            Console.WriteLine(border.ActualWidth);
 
+            DoubleAnimation doubleAnimation = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+            DoubleAnimation doubleAnimation1 = new DoubleAnimation(border.ActualWidth, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+            border.BeginAnimation(OpacityProperty, doubleAnimation);
+            border.BeginAnimation(WidthProperty, doubleAnimation1);
+
+            await Task.Delay(300);
             SavedNumbersPanel.Children.Remove(border);
         }
     }
