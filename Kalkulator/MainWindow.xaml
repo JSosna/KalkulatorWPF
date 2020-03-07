@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Kalkulator"
         mc:Ignorable="d"
         Title="Kalkulator" Height="770" Width="430" ResizeMode="NoResize" 
-        KeyDown="Window_KeyDown" KeyUp="Window_KeyUp">
+        KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen">
 
     <Grid Background="#2F3640">
         <Grid.ColumnDefinitions>

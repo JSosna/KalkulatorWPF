@@ -30,6 +30,17 @@ namespace Kalkulator
         public MainWindow()
         {
             InitializeComponent();
+            Load_Saved_Numbers();
+        }
+
+        private void Load_Saved_Numbers()
+        {
+            string[] numbers = SqliteDataAccess.Load_Numbers();
+            
+            for(int i=0; i<numbers.Length; i++)
+            {
+                Save_Number(numbers[i]);
+            }
         }
 
         private void Number_Click(object sender, RoutedEventArgs e)
@@ -356,12 +367,14 @@ namespace Kalkulator
         private void ResultTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Save_Number(ResultTextBox.Text);
+            SqliteDataAccess.Save_Number(ResultTextBox.Text);
         }
 
         private void Number_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Label label = sender as Label;
             Save_Number(label.Content.ToString());
+            SqliteDataAccess.Save_Number(label.Content.ToString());
         }
 
         async private void Save_Number(String number)
@@ -404,7 +417,6 @@ namespace Kalkulator
                 lastButtonWasOperator = false;
                 lastOperator.BorderThickness = new Thickness(0);
             }
-                
 
             ResultTextBox.Text = label.Content.ToString();
         }
@@ -414,6 +426,9 @@ namespace Kalkulator
             Label label = sender as Label;
             StackPanel sp = label.Parent as StackPanel;
             Border border = sp.Parent as Border;
+
+            SqliteDataAccess.Delete_Number(((Label)sp.Children[0]).Content.ToString());
+
             Console.WriteLine(border.ActualWidth);
 
             DoubleAnimation doubleAnimation = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
