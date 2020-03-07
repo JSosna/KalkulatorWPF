@@ -113,7 +113,8 @@ namespace Kalkulator
                 lastOperator.BorderThickness = new Thickness(0);
                 lastOperator = null;
             }
-            StackHelpers.Children.Clear();
+
+            Remove_Helpers();
         }
 
         private void CE_Click(object sender, RoutedEventArgs e)
@@ -178,7 +179,7 @@ namespace Kalkulator
             label.BeginAnimation(WidthProperty, da1);
         }
 
-        private void Equals_Click(object sender, RoutedEventArgs e)
+        async private void Equals_Click(object sender, RoutedEventArgs e)
         {
             if (!equalsPressed)
             {
@@ -187,7 +188,10 @@ namespace Kalkulator
             }
             else
             {
-                Solve_Helpers();
+                Remove_Helpers();
+                await Task.Delay(300);
+                expression = finalResult.ToString();
+                Add_Helper_Number(finalResult);
             }
 
             if (lastOperator != null)
@@ -196,7 +200,7 @@ namespace Kalkulator
             lastButtonWasOperator = false;
         }
 
-        async private void Solve_Helpers()
+        async private void Remove_Helpers()
         {
             for(int i=0; i<StackHelpers.Children.Count; i++)
             {
@@ -218,9 +222,6 @@ namespace Kalkulator
 
             await Task.Delay(300);
             StackHelpers.Children.Clear();
-
-            expression = finalResult.ToString();
-            Add_Helper_Number(finalResult);
         }
 
 
