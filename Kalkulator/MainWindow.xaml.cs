@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -70,7 +71,8 @@ namespace Kalkulator
                 else
                 {
                     Double.TryParse(ResultTextBox.Text + button.Content, out double tmp);
-                    ResultTextBox.Text = $"{tmp}";
+                    if(tmp.ToString().Length<19)
+                        ResultTextBox.Text = $"{tmp}";
                 }
             }
 
@@ -83,9 +85,10 @@ namespace Kalkulator
             if (!lastButtonWasOperator && !equalsPressed)
             {
                 Calculate_result();
-
-                ResultTextBox.Text = finalResult.ToString();
-                Console.WriteLine(finalResult.ToString());
+                if (Double.IsNaN(finalResult) || Double.IsInfinity(finalResult))
+                    ResultTextBox.Text = "BŁĄD";
+                else
+                    ResultTextBox.Text = finalResult.ToString();
             }
 
             // Operator change
@@ -195,7 +198,11 @@ namespace Kalkulator
             if (!equalsPressed)
             {
                 Calculate_result();
-                ResultTextBox.Text = finalResult.ToString();
+
+                if (Double.IsNaN(finalResult) || Double.IsInfinity(finalResult))
+                    ResultTextBox.Text = "BŁĄD";
+                else
+                    ResultTextBox.Text = finalResult.ToString();
             }
             else
             {
@@ -250,8 +257,8 @@ namespace Kalkulator
             DataTable dt = new DataTable();
             try
             {
-                Double.TryParse(dt.Compute(expression.Replace(',', '.'), "").ToString(), out double value);
-                Console.WriteLine($"DT: {value}");
+                double value = Double.Parse(dt.Compute(expression.Replace(',', '.'), "").ToString());
+                value = Double.Parse(value.ToString(), NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint);
                 finalResult = value;
             }
             catch (Exception e)
